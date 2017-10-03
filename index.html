@@ -34,8 +34,8 @@
   <body>
     <div id="map"></div>
     <div id="floating-panel">
-      Square Meters: <input type="text" readonly id="sqm">
-      Acres: <input type="text" readonly id="acre">
+      <input type="text" readonly id="sqm">
+      <input type="text" readonly id="acre">
     </div>
 
     <script>
@@ -265,8 +265,8 @@ function initMap() {
     var totalAreaSquareMeters = (areasamySmallBit + areasamyKadu + arearoadSide + arearoadEntrance + areabigBit + areamurugeshLong + areapudharKadu)
     var totalAreaAcres = totalAreaSquareMeters * conversionFactor
 
-    document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3);
-    document.getElementById('acre').value = totalAreaAcres.toFixed(3);
+    document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3) + ' &#13217;';
+    document.getElementById('acre').value = totalAreaAcres.toFixed(3) + ' Acres' ;
     infoWindow = new google.maps.InfoWindow;
 }
 
