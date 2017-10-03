@@ -265,7 +265,7 @@ function initMap() {
     var totalAreaSquareMeters = (areasamySmallBit + areasamyKadu + arearoadSide + arearoadEntrance + areabigBit + areamurugeshLong + areapudharKadu)
     var totalAreaAcres = totalAreaSquareMeters * conversionFactor
 
-    document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3) + ' &#13217;';
+    document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3) + ' ㎡';
     document.getElementById('acre').value = totalAreaAcres.toFixed(3) + ' Acres' ;
     infoWindow = new google.maps.InfoWindow;
 }
