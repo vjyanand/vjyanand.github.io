@@ -63,15 +63,16 @@ function initMap() {
     var bigBit = [
         new google.maps.LatLng(11.251949, 78.322311),
         new google.maps.LatLng(11.251806, 78.322753),
-        new google.maps.LatLng(11.252049, 78.322810),
+        new google.maps.LatLng(11.252049, 78.322860),
         new google.maps.LatLng(11.252249, 78.322790),
-        new google.maps.LatLng(11.252488, 78.322780),
-        new google.maps.LatLng(11.252608, 78.322792),
-        new google.maps.LatLng(11.252735, 78.322800),
-        new google.maps.LatLng(11.252841, 78.322807),
-        new google.maps.LatLng(11.252919, 78.322962),
-        new google.maps.LatLng(11.253035, 78.323156),
-        new google.maps.LatLng(11.253142, 78.323260),
+        new google.maps.LatLng(11.252488, 78.322840),
+        new google.maps.LatLng(11.252608, 78.322832),
+        new google.maps.LatLng(11.252735, 78.322830),
+        new google.maps.LatLng(11.252841, 78.323107),
+        new google.maps.LatLng(11.252919, 78.323122),
+        new google.maps.LatLng(11.252999, 78.323122),
+        new google.maps.LatLng(11.253035, 78.323256),
+        new google.maps.LatLng(11.253142, 78.323310),
         new google.maps.LatLng(11.2532166392, 78.3231166285),
         new google.maps.LatLng(11.253216, 78.323120),
         new google.maps.LatLng(11.253228, 78.323108),
@@ -158,6 +159,13 @@ function initMap() {
         new google.maps.LatLng(11.254802, 78.322102),
     ]
 
+    var pudharKadu = [
+        new google.maps.LatLng(11.2536624,78.3234488),
+        new google.maps.LatLng(11.2537014,78.3232678),
+        new google.maps.LatLng(11.2538384,78.3233328),
+        new google.maps.LatLng(11.2537994,78.3234858),
+    ]
+
     var samySmallBit = [
         new google.maps.LatLng(11.254876, 78.320731),
         new google.maps.LatLng(11.255032, 78.320738),
@@ -231,12 +239,20 @@ function initMap() {
         map: map
     })
 
+    var polygonpudharKadu = new google.maps.Polygon({
+        path: pudharKadu,
+        strokeColor: '#4FE010',
+        strokeWeight: 0.50,
+        map: map
+    })
+
     polygonsamySmallBit.addListener('click', showDetails);
     polygonsamyKadu.addListener('click', showDetails);
     polygonroadSide.addListener('click', showDetails);
     polygonroadEntrance.addListener('click', showDetails);
     polygonbigBit.addListener('click', showDetails);
     polygonmurugeshLong.addListener('click', showDetails);
+    polygonpudharKadu.addListener('click', showDetails);
 
     var areasamySmallBit = google.maps.geometry.spherical.computeArea(polygonsamySmallBit.getPath())
     var areasamyKadu = google.maps.geometry.spherical.computeArea(polygonsamyKadu.getPath())
@@ -244,8 +260,9 @@ function initMap() {
     var arearoadEntrance = google.maps.geometry.spherical.computeArea(polygonroadEntrance.getPath())
     var areabigBit = google.maps.geometry.spherical.computeArea(polygonbigBit.getPath())
     var areamurugeshLong = google.maps.geometry.spherical.computeArea(polygonmurugeshLong.getPath())
+    var areapudharKadu = google.maps.geometry.spherical.computeArea(polygonpudharKadu.getPath())
 
-    var totalAreaSquareMeters = (areasamySmallBit + areasamyKadu + arearoadSide + arearoadEntrance + areabigBit + areamurugeshLong)
+    var totalAreaSquareMeters = (areasamySmallBit + areasamyKadu + arearoadSide + arearoadEntrance + areabigBit + areamurugeshLong + areapudharKadu)
     var totalAreaAcres = totalAreaSquareMeters * conversionFactor
 
     document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3);
@@ -257,7 +274,7 @@ function showDetails(event) {
     var area = google.maps.geometry.spherical.computeArea(this.getPath());
     var areaAcres = area * conversionFactor
 
-    var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "sqm, " +  areaAcres.toFixed(3)
+    var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "sqm, " +  areaAcres.toFixed(3) 
     infoWindow.setContent(contentString);
     infoWindow.setPosition(event.latLng);
     infoWindow.open(this.map);
