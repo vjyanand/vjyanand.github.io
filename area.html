@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Area</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="floating-panel">
+      Square Meters: <input type="text" readonly id="sqm">
+      Acres: <input type="text" readonly id="acre">
+    </div>
+
+    <script>
+     
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 19,
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        mapTypeControl: false,
+        stylers: [{
+            visibility: 'off'
+        }],
+        featureType: 'poi',
+        center: {
+            lat: 11.253142,
+            lng: 78.323260
+        }
+    });
+
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+        document.getElementById('info'));
+
+    var bigBit = [
+        new google.maps.LatLng(11.251949, 78.322311),
+        new google.maps.LatLng(11.251806, 78.322653),
+        new google.maps.LatLng(11.252049, 78.322810),
+        new google.maps.LatLng(11.252249, 78.322790),
+        new google.maps.LatLng(11.252488, 78.322780),
+        new google.maps.LatLng(11.252608, 78.322792),
+        new google.maps.LatLng(11.252735, 78.322800),
+        new google.maps.LatLng(11.252841, 78.322807),
+        new google.maps.LatLng(11.252919, 78.322962),
+        new google.maps.LatLng(11.253035, 78.323156),
+        new google.maps.LatLng(11.253142, 78.323260),
+        new google.maps.LatLng(11.2532166392, 78.3231166285),
+        new google.maps.LatLng(11.253216, 78.323120),
+        new google.maps.LatLng(11.253228, 78.323108),
+        new google.maps.LatLng(11.253229, 78.323109),
+        new google.maps.LatLng(11.253228, 78.323113),
+        new google.maps.LatLng(11.253399, 78.323118),
+        new google.maps.LatLng(11.253401, 78.323119),
+        new google.maps.LatLng(11.253663, 78.323144),
+        new google.maps.LatLng(11.253649, 78.322991),
+        new google.maps.LatLng(11.253646, 78.323002),
+        new google.maps.LatLng(11.253646, 78.323002),
+        new google.maps.LatLng(11.253666, 78.322806),
+        new google.maps.LatLng(11.253661, 78.322804),
+        new google.maps.LatLng(11.254365, 78.322819),
+        new google.maps.LatLng(11.254363, 78.322895),
+        new google.maps.LatLng(11.254414, 78.322949),
+        new google.maps.LatLng(11.254659, 78.322861),
+        new google.maps.LatLng(11.254813, 78.322895),
+        new google.maps.LatLng(11.254755, 78.323014),
+        new google.maps.LatLng(11.254575, 78.323111),
+        new google.maps.LatLng(11.254509, 78.323187),
+        new google.maps.LatLng(11.254392, 78.323255),
+        new google.maps.LatLng(11.254307, 78.323301),
+        new google.maps.LatLng(11.254240, 78.323282),
+        new google.maps.LatLng(11.254167, 78.323566),
+        new google.maps.LatLng(11.254158, 78.323574),
+        new google.maps.LatLng(11.254341, 78.323612),
+        new google.maps.LatLng(11.254517, 78.323607),
+        new google.maps.LatLng(11.254752, 78.323382),
+        new google.maps.LatLng(11.254918, 78.323150),
+        new google.maps.LatLng(11.255024, 78.323058),
+        new google.maps.LatLng(11.255149, 78.323035),
+        new google.maps.LatLng(11.255318, 78.322907),
+        new google.maps.LatLng(11.255318, 78.322775),
+        new google.maps.LatLng(11.255361, 78.322680),
+        new google.maps.LatLng(11.255309, 78.322586),
+        new google.maps.LatLng(11.255296, 78.322409),
+        new google.maps.LatLng(11.255294, 78.322337),
+        new google.maps.LatLng(11.255256, 78.322265),
+        new google.maps.LatLng(11.255135, 78.322239),
+        new google.maps.LatLng(11.255110, 78.322287),
+        new google.maps.LatLng(11.255022, 78.322418),
+        new google.maps.LatLng(11.254961, 78.322466),
+        new google.maps.LatLng(11.254861, 78.322554),
+        new google.maps.LatLng(11.254822, 78.322605),
+        new google.maps.LatLng(11.254782, 78.322636),
+        new google.maps.LatLng(11.254656, 78.322691),
+        new google.maps.LatLng(11.254608, 78.322635),
+        new google.maps.LatLng(11.254534, 78.322635),
+        new google.maps.LatLng(11.254390, 78.322665),
+        new google.maps.LatLng(11.254230, 78.322625),
+        new google.maps.LatLng(11.254057, 78.322572),
+        new google.maps.LatLng(11.253993, 78.322508),
+        new google.maps.LatLng(11.253866, 78.322472),
+        new google.maps.LatLng(11.253842, 78.322313),
+        new google.maps.LatLng(11.253719, 78.322335),
+        new google.maps.LatLng(11.253636, 78.322412),
+        new google.maps.LatLng(11.253231, 78.322345),
+        new google.maps.LatLng(11.253228, 78.322193),
+        new google.maps.LatLng(11.253046, 78.322202),
+        new google.maps.LatLng(11.252844, 78.322199),
+        new google.maps.LatLng(11.252555, 78.322210),
+        new google.maps.LatLng(11.252400, 78.322281),
+        new google.maps.LatLng(11.252339, 78.322368),
+        new google.maps.LatLng(11.252123, 78.322315),
+    ]
+
+    var samyKadu = [
+        new google.maps.LatLng(11.254873, 78.322146),
+        new google.maps.LatLng(11.254920, 78.322015),
+        new google.maps.LatLng(11.254976, 78.322027),
+        new google.maps.LatLng(11.254988, 78.321932),
+        new google.maps.LatLng(11.254863, 78.321863),
+        new google.maps.LatLng(11.254819, 78.321811),
+        new google.maps.LatLng(11.254884, 78.321542),
+        new google.maps.LatLng(11.255067, 78.321162),
+        new google.maps.LatLng(11.255092, 78.321105),
+        new google.maps.LatLng(11.255027, 78.321075),
+        new google.maps.LatLng(11.254952, 78.321264),
+        new google.maps.LatLng(11.254820, 78.321491),
+        new google.maps.LatLng(11.254636, 78.321477),
+        new google.maps.LatLng(11.254605, 78.321836),
+        new google.maps.LatLng(11.254703, 78.321806),
+        new google.maps.LatLng(11.254802, 78.322102),
+    ]
+
+    var samySmallBit = [
+        new google.maps.LatLng(11.254876, 78.320731),
+        new google.maps.LatLng(11.255032, 78.320738),
+        new google.maps.LatLng(11.255118, 78.320595),
+        new google.maps.LatLng(11.255119, 78.320583),
+        new google.maps.LatLng(11.255098, 78.320552),
+        new google.maps.LatLng(11.255057, 78.320538),
+        new google.maps.LatLng(11.254980, 78.320582),
+    ]
+
+    var roadSide = [
+        new google.maps.LatLng(11.254385, 78.320705),
+        new google.maps.LatLng(11.254461, 78.320728),
+        new google.maps.LatLng(11.254385, 78.320980),
+        new google.maps.LatLng(11.254309, 78.321002),
+    ]
+
+    var roadEntrance = [
+        new google.maps.LatLng(11.253540, 78.321295),
+        new google.maps.LatLng(11.253408, 78.321338),
+        new google.maps.LatLng(11.253467, 78.321524),
+        new google.maps.LatLng(11.253602, 78.321529),
+    ]
+
+    var murugeshLong = [
+        new google.maps.LatLng(11.253326, 78.321765),
+        new google.maps.LatLng(11.253352, 78.321941),
+        new google.maps.LatLng(11.253687, 78.321976),
+        new google.maps.LatLng(11.253677, 78.321782),
+    ]
+
+    var polygonmurugeshLong = new google.maps.Polygon({
+        path: murugeshLong,
+        strokeColor: '#FF0000',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    var polygonbigBit = new google.maps.Polygon({
+        path: bigBit,
+        strokeColor: '#FFF000',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    var polygonroadEntrance = new google.maps.Polygon({
+        path: roadEntrance,
+        strokeColor: '#FFF0F0',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    var polygonroadSide = new google.maps.Polygon({
+        path: roadSide,
+        strokeColor: '#FF00F0',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    var polygonsamyKadu = new google.maps.Polygon({
+        path: samyKadu,
+        strokeColor: '#FF4070',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    var polygonsamySmallBit = new google.maps.Polygon({
+        path: samySmallBit,
+        strokeColor: '#0FA090',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    var areasamySmallBit = google.maps.geometry.spherical.computeArea(polygonsamySmallBit.getPath())
+    var areasamyKadu = google.maps.geometry.spherical.computeArea(polygonsamyKadu.getPath())
+    var arearoadSide = google.maps.geometry.spherical.computeArea(polygonroadSide.getPath())
+    var arearoadEntrance = google.maps.geometry.spherical.computeArea(polygonroadEntrance.getPath())
+    var areabigBit = google.maps.geometry.spherical.computeArea(polygonbigBit.getPath())
+    var areamurugeshLong = google.maps.geometry.spherical.computeArea(polygonmurugeshLong.getPath())
+
+    var conversionFactor = 0.000247105
+
+    var totalAreaSquareMeters = (areasamySmallBit + areasamyKadu + arearoadSide + arearoadEntrance + areabigBit + areamurugeshLong)
+    var totalAreaAcres = totalAreaSquareMeters * conversionFactor
+
+    document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3);
+    document.getElementById('acre').value = totalAreaAcres.toFixed(3);
+
+}
+
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHz8ru4C6pPMOPhz_VH-J7KQO9q29paaM&libraries=geometry&callback=initMap"
+        async defer></script>
+  </body>
+</html>
