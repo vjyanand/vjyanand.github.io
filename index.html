@@ -266,13 +266,11 @@ function initMap() {
 function showDetails(event) {
     var area = google.maps.geometry.spherical.computeArea(this.getPath());
     var areaAcres = area * conversionFactor
-
-    var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "sqm, " +  areaAcres.toFixed(3) 
+    var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "㎡, " +  areaAcres.toFixed(3) 
     infoWindow.setContent(contentString);
     infoWindow.setPosition(event.latLng);
     infoWindow.open(this.map);
 }
-
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHz8ru4C6pPMOPhz_VH-J7KQO9q29paaM&libraries=geometry&callback=initMap"
