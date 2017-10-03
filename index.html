@@ -5,12 +5,9 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
       #map {
         height: 100%;
       }
-      /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
         margin: 0;
@@ -56,10 +53,6 @@ function initMap() {
             lng: 78.322260
         }
     });
-
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(
-        document.getElementById('info'));
-
     var bigBit = [
         new google.maps.LatLng(11.251949, 78.322311),
         new google.maps.LatLng(11.251806, 78.322753),
