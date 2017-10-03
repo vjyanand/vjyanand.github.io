@@ -39,12 +39,14 @@
     </div>
 
     <script>
-     
+    var infoWindow;
+    var conversionFactor = 0.000247105
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 19,
         mapTypeId: google.maps.MapTypeId.SATELLITE,
         mapTypeControl: false,
+        streetViewControl: false,
         stylers: [{
             visibility: 'off'
         }],
@@ -60,7 +62,7 @@ function initMap() {
 
     var bigBit = [
         new google.maps.LatLng(11.251949, 78.322311),
-        new google.maps.LatLng(11.251806, 78.322653),
+        new google.maps.LatLng(11.251806, 78.322753),
         new google.maps.LatLng(11.252049, 78.322810),
         new google.maps.LatLng(11.252249, 78.322790),
         new google.maps.LatLng(11.252488, 78.322780),
@@ -182,9 +184,9 @@ function initMap() {
 
     var murugeshLong = [
         new google.maps.LatLng(11.253326, 78.321765),
-        new google.maps.LatLng(11.253352, 78.321941),
-        new google.maps.LatLng(11.253687, 78.321976),
-        new google.maps.LatLng(11.253677, 78.321782),
+        new google.maps.LatLng(11.253352, 78.321991),
+        new google.maps.LatLng(11.2537914, 78.321976),
+        new google.maps.LatLng(11.253735, 78.3217119),
     ]
 
     var polygonmurugeshLong = new google.maps.Polygon({
@@ -229,6 +231,13 @@ function initMap() {
         map: map
     })
 
+    polygonsamySmallBit.addListener('click', showDetails);
+    polygonsamyKadu.addListener('click', showDetails);
+    polygonroadSide.addListener('click', showDetails);
+    polygonroadEntrance.addListener('click', showDetails);
+    polygonbigBit.addListener('click', showDetails);
+    polygonmurugeshLong.addListener('click', showDetails);
+
     var areasamySmallBit = google.maps.geometry.spherical.computeArea(polygonsamySmallBit.getPath())
     var areasamyKadu = google.maps.geometry.spherical.computeArea(polygonsamyKadu.getPath())
     var arearoadSide = google.maps.geometry.spherical.computeArea(polygonroadSide.getPath())
@@ -236,16 +245,23 @@ function initMap() {
     var areabigBit = google.maps.geometry.spherical.computeArea(polygonbigBit.getPath())
     var areamurugeshLong = google.maps.geometry.spherical.computeArea(polygonmurugeshLong.getPath())
 
-    var conversionFactor = 0.000247105
-
     var totalAreaSquareMeters = (areasamySmallBit + areasamyKadu + arearoadSide + arearoadEntrance + areabigBit + areamurugeshLong)
     var totalAreaAcres = totalAreaSquareMeters * conversionFactor
 
     document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3);
     document.getElementById('acre').value = totalAreaAcres.toFixed(3);
-
+    infoWindow = new google.maps.InfoWindow;
 }
 
+function showDetails(event) {
+    var area = google.maps.geometry.spherical.computeArea(this.getPath());
+    var areaAcres = area * conversionFactor
+
+    var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "sqm, " +  areaAcres.toFixed(3)
+    infoWindow.setContent(contentString);
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(this.map);
+}
 
 
     </script>
