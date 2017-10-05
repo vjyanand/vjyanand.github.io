@@ -33,11 +33,14 @@
     <div id="floating-panel">
       <input type="text" readonly id="sqm">
       <input type="text" readonly id="acre">
+      <button id="edit" onClick='toggleEditMode(this)'>Edit</button>
     </div>
 
     <script>
     var infoWindow;
     var conversionFactor = 0.000247105
+    var polygonsamySmallBit, polygonsamyKadu, polygonroadSide, polygonroadEntrance, polygonbigBit, polygonmurugeshLong, polygonpudharKadu;
+    var editMode = false;
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 19,
@@ -190,49 +193,49 @@ function initMap() {
         new google.maps.LatLng(11.253735, 78.3217119),
     ]
 
-    var polygonmurugeshLong = new google.maps.Polygon({
+    polygonmurugeshLong = new google.maps.Polygon({
         path: murugeshLong,
         strokeColor: '#FF0000',
         strokeWeight: 0.50,
         map: map
     })
 
-    var polygonbigBit = new google.maps.Polygon({
+    polygonbigBit = new google.maps.Polygon({
         path: bigBit,
         strokeColor: '#FFF000',
         strokeWeight: 0.50,
         map: map
     })
 
-    var polygonroadEntrance = new google.maps.Polygon({
+    polygonroadEntrance = new google.maps.Polygon({
         path: roadEntrance,
         strokeColor: '#3361e0',
         strokeWeight: 0.50,
         map: map
     })
 
-    var polygonroadSide = new google.maps.Polygon({
+    polygonroadSide = new google.maps.Polygon({
         path: roadSide,
         strokeColor: '#FF00F0',
         strokeWeight: 0.50,
         map: map
     })
 
-    var polygonsamyKadu = new google.maps.Polygon({
+    polygonsamyKadu = new google.maps.Polygon({
         path: samyKadu,
         strokeColor: '#FF4070',
         strokeWeight: 0.50,
         map: map
     })
 
-    var polygonsamySmallBit = new google.maps.Polygon({
+    polygonsamySmallBit = new google.maps.Polygon({
         path: samySmallBit,
         strokeColor: '#0FA090',
         strokeWeight: 0.50,
         map: map
     })
 
-    var polygonpudharKadu = new google.maps.Polygon({
+    polygonpudharKadu = new google.maps.Polygon({
         path: pudharKadu,
         strokeColor: '#4FE010',
         strokeWeight: 0.50,
@@ -247,6 +250,24 @@ function initMap() {
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
 
+    infoWindow = new google.maps.InfoWindow;
+    calculateArea()
+}
+
+function toggleEditMode(source) {
+   editMode = !editMode
+   source.innerText = (editMode) ? 'Calculate' : 'Edit';
+   polygonsamySmallBit.setEditable(editMode)
+   polygonsamyKadu.setEditable(editMode)
+   polygonroadSide.setEditable(editMode)
+   polygonroadEntrance.setEditable(editMode)
+   polygonbigBit.setEditable(editMode)
+   polygonmurugeshLong.setEditable(editMode)
+   polygonpudharKadu.setEditable(editMode)
+   calculateArea();
+}
+
+function calculateArea() {
     var areasamySmallBit = google.maps.geometry.spherical.computeArea(polygonsamySmallBit.getPath())
     var areasamyKadu = google.maps.geometry.spherical.computeArea(polygonsamyKadu.getPath())
     var arearoadSide = google.maps.geometry.spherical.computeArea(polygonroadSide.getPath())
@@ -260,13 +281,14 @@ function initMap() {
 
     document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3) + ' ㎡';
     document.getElementById('acre').value = totalAreaAcres.toFixed(3) + ' Acres' ;
-    infoWindow = new google.maps.InfoWindow;
 }
 
 function showDetails(event) {
-    var area = google.maps.geometry.spherical.computeArea(this.getPath());
+    var vertices = this.getPath();
+    var area = google.maps.geometry.spherical.computeArea(vertices);
     var areaAcres = area * conversionFactor
     var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "㎡, " +  areaAcres.toFixed(3) 
+
     infoWindow.setContent(contentString);
     infoWindow.setPosition(event.latLng);
     infoWindow.open(this.map);
