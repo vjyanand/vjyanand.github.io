@@ -43,7 +43,7 @@
     var editMode = false;
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 19,
+        zoom: 17,
         mapTypeId: google.maps.MapTypeId.SATELLITE,
         mapTypeControl: false,
         streetViewControl: false,
@@ -255,13 +255,14 @@ function initMap() {
 }
 
 function addOverlay(map) {
-    var imageMapType = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-            return 'https://vjyanand.github.io/big.png';
-        },
-        tileSize: new google.maps.Size(1000, 1000)
-    });
-    map.overlayMapTypes.push(imageMapType);
+    var imageBounds = {
+        north: 11.255606264452349,
+        south: 11.251043742935016,
+        east: 78.32395227622987,
+        west: 78.31987969970714
+    };
+    var imageMapOverlay = new google.maps.GroundOverlay('https://vjyanand.github.io/big.png', imageBounds);
+    imageMapOverlay.setMap(map)
 }
 
 function toggleEditMode(source) {
