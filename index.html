@@ -249,9 +249,17 @@ function initMap() {
     polygonbigBit.addListener('click', showDetails);
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
-
+    addOverlay();
     infoWindow = new google.maps.InfoWindow;
     calculateArea()
+}
+
+function addOverlay() {
+    var imageMapType = new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) {
+            return ['//www.gstatic.com/io2010maps/tiles/5/L2_', zoom, '_', coord.x, '_', coord.y, '.png'].join('');
+        }
+    });
 }
 
 function toggleEditMode(source) {
