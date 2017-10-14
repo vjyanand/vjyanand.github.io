@@ -28,10 +28,10 @@
       }
 
       img[src="https://vjyanand.github.io/big.png"] {
-        transform: rotate(45deg);
+        transform: rotate(25deg);
         opacity: 0.5;
       }
-
+      
     </style>
   </head>
   <body>
@@ -258,18 +258,16 @@ function initMap() {
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
     addOverlay(map);
-    rotateOverlay(30);
     infoWindow = new google.maps.InfoWindow;
     calculateArea()
 }
 
 function addOverlay(map) {
-    var imageBounds = {
-        north: 11.255606264452349,
-        south: 11.251043742935016,
-        east: 78.32395227622987,
-        west: 78.31987969970714
-    };
+    //point1(11.251412035321865, 78.32108132934582)
+    //point2(11.255606264452348, 78.32395227622987)
+    var swBound = new google.maps.LatLng(11.251412035321865, 78.32108132934582);
+    var neBound = new google.maps.LatLng(11.255606264452348, 78.32395227622987);
+    var imageBounds = new google.maps.LatLngBounds(swBound, neBound);
     var imageMapOverlay = new google.maps.GroundOverlay('https://vjyanand.github.io/big.png', imageBounds);
     imageMapOverlay.setMap(map)
 }
