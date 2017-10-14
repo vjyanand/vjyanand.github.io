@@ -249,17 +249,19 @@ function initMap() {
     polygonbigBit.addListener('click', showDetails);
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
-    addOverlay();
+    addOverlay(map);
     infoWindow = new google.maps.InfoWindow;
     calculateArea()
 }
 
-function addOverlay() {
+function addOverlay(map) {
     var imageMapType = new google.maps.ImageMapType({
         getTileUrl: function(coord, zoom) {
-            return ['//www.gstatic.com/io2010maps/tiles/5/L2_', zoom, '_', coord.x, '_', coord.y, '.png'].join('');
-        }
+            return ['https://www.gstatic.com/io2010maps/tiles/5/L2_', zoom, '_', coord.x, '_', coord.y, '.png'].join('');
+        },
+        tileSize: new google.maps.Size(256, 256)
     });
+    map.overlayMapTypes.push(imageMapType);
 }
 
 function toggleEditMode(source) {
