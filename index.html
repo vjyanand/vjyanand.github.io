@@ -26,6 +26,12 @@
         line-height: 30px;
         padding-left: 10px;
       }
+
+      img[src="https://vjyanand.github.io/big.png"] {
+        transform: rotate(45deg);
+        opacity: 0.5;
+      }
+
     </style>
   </head>
   <body>
@@ -34,6 +40,8 @@
       <input type="text" readonly id="sqm">
       <input type="text" readonly id="acre">
       <button id="edit" onClick='toggleEditMode(this)'>Edit</button>
+      <input type="range" min="0" max="1" step="0.05" value="0">
+      
     </div>
 
     <script>
@@ -250,6 +258,7 @@ function initMap() {
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
     addOverlay(map);
+    rotateOverlay(30);
     infoWindow = new google.maps.InfoWindow;
     calculateArea()
 }
@@ -263,6 +272,10 @@ function addOverlay(map) {
     };
     var imageMapOverlay = new google.maps.GroundOverlay('https://vjyanand.github.io/big.png', imageBounds);
     imageMapOverlay.setMap(map)
+}
+
+function rotateOverlay(degree) {
+
 }
 
 function toggleEditMode(source) {
