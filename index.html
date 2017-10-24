@@ -49,6 +49,7 @@
     var conversionFactor = 0.000247105
     var polygonsamySmallBit, polygonsamyKadu, polygonroadSide, polygonroadEntrance, polygonbigBit, polygonmurugeshLong, polygonpudharKadu;
     var editMode = false;
+
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 18,
@@ -257,7 +258,7 @@ function initMap() {
     polygonbigBit.addListener('click', showDetails);
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
-    addOverlay(map);
+    //addOverlay(map);
 
     infoWindow = new google.maps.InfoWindow;
     calculateArea()
