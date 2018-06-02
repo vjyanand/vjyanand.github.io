@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Area</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      img[src="https://vjyanand.github.io/big.png"] {
+        transform: rotate(20deg);
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="floating-panel">
+      <input type="text" readonly id="sqm">
+      <input type="text" readonly id="acre">
+      <button id="edit" onClick='toggleEditMode(this)'>Edit</button>
+      <input id="r-opacity" type="range" min="0" max="1" step="0.05" value="0">
+      
+    </div>
+
+    <script>
+    var infoWindow;
+    var conversionFactor = 0.000247105
+    var polygonsamySmallBit, polygonsamyKadu, polygonroadSide, polygonroadEntrance, polygonbigBit, polygonmurugeshLong, polygonpudharKadu;
+    var editMode = false;
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 22,
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        mapTypeControl: false,
+        streetViewControl: false,
+        stylers: [{
+            visibility: 'off'
+        }],
+        featureType: 'poi',
+        center: {
+            lat: 11.2751174,
+            lng: 78.32877289
+        }
+    });
+    
+    var barathKadu = [
+        new google.maps.LatLng(11.2751174, 78.32877289),
+        new google.maps.LatLng(11.27511715, 78.32877211),
+        new google.maps.LatLng(11.27511322, 78.32877385),
+        new google.maps.LatLng(11.27511232, 78.32877604),
+        new google.maps.LatLng(11.275418286583522, 78.32844740558198),
+        new google.maps.LatLng(11.275177375734089, 78.32808449465574),
+        new google.maps.LatLng(11.27492765, 78.32824913),
+        new google.maps.LatLng(11.27467819, 78.32854272),
+        new google.maps.LatLng(11.27467201, 78.32855014),
+        new google.maps.LatLng(11.27442633, 78.32883191),
+        new google.maps.LatLng(11.27462915, 78.32918297),
+        new google.maps.LatLng(11.2751174, 78.32877289),
+    ]
+
+    polygonbarathKadu = new google.maps.Polygon({
+        path: barathKadu,
+        strokeColor: '#FF0000',
+        strokeWeight: 0.50,
+        map: map
+    })
+
+    
+    polygonbarathKadu.addListener('click', showDetails);
+    //addOverlay(map);
+
+    infoWindow = new google.maps.InfoWindow;
+    calculateArea()
+}
+
+function addOverlay(map) {
+    //point1(11.251412035321865, 78.32108132934582)
+    //point2(11.255606264452348, 78.32395227622987)
+    var swBound = new google.maps.LatLng(11.251412035321865, 78.32108132934582);
+    var neBound = new google.maps.LatLng(11.255606264452348, 78.32395227622987);
+    var imageBounds = new google.maps.LatLngBounds(swBound, neBound);
+    var imageMapOverlay = new google.maps.GroundOverlay('https://vjyanand.github.io/big.png', imageBounds);
+    imageMapOverlay.setMap(map);
+    var p = document.getElementById("r-opacity");
+    p.addEventListener("input", function() {
+        imageMapOverlay.setOpacity(parseFloat(p.value));
+    }, false); 
+}
+
+function toggleEditMode(source) {
+   editMode = !editMode
+   source.innerText = (editMode) ? 'Calculate' : 'Edit';
+   polygonbarathKadu.setEditable(editMode)
+   calculateArea();
+}
+
+function calculateArea() {
+    var c = polygonbarathKadu.getPath();
+    c.b.forEach(element => {
+        console.log(element.lat(),element.lng())
+    });
+    var areapolygonbarathKadu = google.maps.geometry.spherical.computeArea(polygonbarathKadu.getPath())
+
+    var totalAreaSquareMeters = areapolygonbarathKadu
+    var totalAreaAcres = totalAreaSquareMeters * conversionFactor
+
+    document.getElementById('sqm').value = totalAreaSquareMeters.toFixed(3) + ' ㎡';
+    document.getElementById('acre').value = totalAreaAcres.toFixed(3) + ' Acres' ;
+}
+
+function showDetails(event) {
+    var vertices = this.getPath();
+    var area = google.maps.geometry.spherical.computeArea(vertices);
+    var areaAcres = area * conversionFactor
+    var contentString = '<b>Area:</b><br>' + area.toFixed(3) + "㎡, " +  areaAcres.toFixed(3) 
+
+    infoWindow.setContent(contentString);
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(this.map);
+}
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHz8ru4C6pPMOPhz_VH-J7KQO9q29paaM&libraries=geometry&callback=initMap" async defer></script>
+  </body>
+</html>
