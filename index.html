@@ -270,7 +270,7 @@ function initMap() {
   
     polygonVakilKadu = new google.maps.Polygon({
         path: vakilKadu,
-        strokeColor: '#fc0388',
+        strokeColor: '#03fcb5',
         strokeWeight: 0.50,
         map: map
     })
@@ -283,7 +283,7 @@ function initMap() {
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
     polygonVakilKadu.addListener('click', showDetails);
-    //addOverlay(map);
+
 
     infoWindow = new google.maps.InfoWindow;
     calculateArea()
