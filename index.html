@@ -164,6 +164,13 @@ function initMap() {
         new google.maps.LatLng(11.254802, 78.322102),
     ]
 
+    var VakilKadu = [
+        new google.maps.LatLng(11.2536624,78.3234488),
+        new google.maps.LatLng(11.2537014,78.3232678),
+        new google.maps.LatLng(11.2538384,78.3233328),
+        new google.maps.LatLng(11.2537994,78.3234858),
+    ]
+    
     var pudharKadu = [
         new google.maps.LatLng(11.2536624,78.3234488),
         new google.maps.LatLng(11.2537014,78.3232678),
@@ -250,7 +257,14 @@ function initMap() {
         strokeWeight: 0.50,
         map: map
     })
-
+  
+    polygonVakilKadu = new google.maps.Polygon({
+        path: vakilKadu,
+        strokeColor: '#4FE010',
+        strokeWeight: 0.50,
+        map: map
+    })
+  
     polygonsamySmallBit.addListener('click', showDetails);
     polygonsamyKadu.addListener('click', showDetails);
     polygonroadSide.addListener('click', showDetails);
@@ -258,6 +272,7 @@ function initMap() {
     polygonbigBit.addListener('click', showDetails);
     polygonmurugeshLong.addListener('click', showDetails);
     polygonpudharKadu.addListener('click', showDetails);
+    polygonVakilKadu.addListener('click', showDetails);
     //addOverlay(map);
 
     infoWindow = new google.maps.InfoWindow;
